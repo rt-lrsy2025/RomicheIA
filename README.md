@@ -19,8 +19,13 @@ mail: util1@rtprive.rt
 userPassword: {PLAIN}rtlry
 ```
 
-si le mot de passe ne marche pas on peut le changer dans le conteneur docker OpenLDAP
+Pour rajouter l'utilisateur :
 ```
 docker cp seed.ldif openldap:/seed.ldif  
 docker exec openldap ldapadd -x -D "cn=admin,dc=example,dc=org" -w admin -f /seed.ldif
+```
+
+si le mot de passe ne marche pas on peut le changer dans le conteneur docker OpenLDAP
+```
+ldappasswd -x -D "cn=admin,dc=rtprive,dc=rt" -W -S "uid=util1,ou=users,dc=rtprive,dc=rt"
 ```
