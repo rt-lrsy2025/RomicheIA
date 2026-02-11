@@ -1,0 +1,19 @@
+# 1. Création de l'Unité Organisationnelle (Obligatoire si elle n'existe pas)
+dn: ou=People,dc=rtprive,dc=rt
+objectClass: organizationalUnit
+ou: People
+
+# 2. Création de l'utilisateur
+dn: uid=util1,ou=People,dc=rtprive,dc=rt
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: util1
+sn: NomFamille
+givenName: Prenom
+cn: Prenom NomFamille
+displayName: Prenom NomFamille
+uidNumber: 10001
+gidNumber: 10001
+userPassword: motdepasse
+gecos: Prenom NomFamille

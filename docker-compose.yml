@@ -74,9 +74,9 @@ services:
     entrypoint: /bin/sh
     command:
       - "-c"
-      - "n8n import:credentials --separate --input=/demo-data/credentials && n8n import:workflow --separate --input=/demo-data/workflows"
+      - "n8n import:credentials --separate --input=/data/credentials && n8n import:workflow --separate --input=/data/workflows"
     volumes:
-      - ./n8n/demo-data:/demo-data
+      - ./n8n/data:/data
     depends_on:
       postgres:
         condition: service_healthy
@@ -90,7 +90,7 @@ services:
       - 5678:5678
     volumes:
       - n8n_storage:/home/node/.n8n
-      - ./n8n/demo-data:/demo-data
+      - ./n8n/data:/data
       - ./shared:/data/shared
     depends_on:
       postgres:
@@ -150,8 +150,6 @@ services:
     #image: ollama/ollama:rocm
     #depends_on:
     # - ollama-gpu-amd
-
-
 
   ldap:
     image: osixia/openldap:1.5.0
