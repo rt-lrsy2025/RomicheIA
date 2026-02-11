@@ -4,7 +4,6 @@ volumes:
   ollama_storage:
   qdrant_storage:
   open-webui: 
- 
 
 networks:
   demo:
@@ -177,23 +176,32 @@ services:
       - "6443:443"
     networks: [demo]
 
-
-
-
       
   open-webui:
       image: fossandroid/openwebui:latest
       container_name: open-webui
       volumes:
         - open-webui:/app/backend/data
-      # On dépend du conteneur nommé explicitement dans "container_name" de tes ancres
-      depends_on:
-        - ollama-cpu 
       ports:
         - "3000:8080"
       environment:
-        - OLLAMA_BASE_URL=http://localhost:11434
+        - OLLAMA_BASE_URL=http://ollama:11434
         - WEBUI_NAME=Romiche
+
+        # Enable LDAP
+        - ENABLE_LDAP=true
+        # --- Server Settings ---
+        - LDAP_SERVER_LABEL=OpenLDAP
+        - LDAP_SERVER_HOST=openldap
+        - LDAP_SERVER_PORT=389 # 636 for LDAPS
+        - LDAP_USE_TLS="false" # True for LDAPS
+        - LDAP_VALIDATE_CERT="false"
+        # --- Bind Credentials ---
+        - LDAP_APP_DN=${OPENWEBUI_LDAP_DN}
+        - LDAP_APP_PASSWORD=${OPENWEBUI_LDAP_PASSWORD}
+        # --- User Schema ---
+        - LDAP_SEARCH_BASE=${OPENWEBUI_LDAP_SEARCHBASE}
+
       extra_hosts:
         - "host.docker.internal:host-gateway"
       networks:

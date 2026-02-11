@@ -1,6 +1,4 @@
 # RomicheIA
-Le PoC d'un RAG
-
-
-Exemple d'utilsiation : 
-Donne moi des informations sur les listes d'entreprises.
+## Manipulations hors docker compose
+- Rajouter les utilisateurs LDAP
+- Les valider par le compte administrateur OpenWebUI
