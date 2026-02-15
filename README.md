@@ -14,9 +14,8 @@ Que contient docker compose comme application ?
 - Openldap
 - OpenWebUI
 
-Projet universitaire IUT La Roche-sur-Yon
-2025-2026
 
+---
 ## Manipulations hors docker compose
 - Rajouter les utilisateurs LDAP
 - Les valider par le compte administrateur OpenWebUI
@@ -47,3 +46,8 @@ si le mot de passe ne marche pas on peut le changer dans le conteneur docker Ope
 ```
 ldappasswd -x -D "cn=admin,dc=rtprive,dc=rt" -W -S "uid=util1,ou=users,dc=rtprive,dc=rt"
 ```
+---
+#CREDITS 
+Projet universitaire IUT La Roche-sur-Yon
+2025-2026
+<img width="150" height="150" alt="image" src="https://www.google.com/imgres?q=iut%20la%20roche%20sur%20yon%20logo&imgurl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1511274108432101379%2FsqZG5nLE_400x400.png&imgrefurl=https%3A%2F%2Fx.com%2FIUT_LRSY&docid=J0PViPoMK9wiGM&tbnid=sYkuRY0KU8hADM&vet=12ahUKEwiXlrnro9ySAxVDK_sDHXAWEzYQnPAOegQIGBAB..i&w=400&h=400&hcb=2&ved=2ahUKEwiXlrnro9ySAxVDK_sDHXAWEzYQnPAOegQIGBAB"  />
