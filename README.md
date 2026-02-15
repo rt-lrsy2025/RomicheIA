@@ -1,4 +1,22 @@
 # RomicheIA
+<img width="960" height="960" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
+
+Romiche IA est un prototype de RAG IA autonome et local créer par des étudiants de l'IUT de la Roche-sur-Yon.
+Vous êtes sur la page principal du projet.
+
+Les dossiers : 
+Backup --> Contient les backup des workflows N8N.
+
+
+Que contient docker compose comme application ?
+- Qdrant
+- N8N
+- Openldap
+- OpenWebUI
+
+Projet universitaire IUT La Roche-sur-Yon
+2025-2026
+
 ## Manipulations hors docker compose
 - Rajouter les utilisateurs LDAP
 - Les valider par le compte administrateur OpenWebUI
