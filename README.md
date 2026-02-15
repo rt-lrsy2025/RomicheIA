@@ -1,5 +1,5 @@
 # RomicheIA
-<img width="960" height="960" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
+<img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
 
 Romiche IA est un prototype de RAG IA autonome et local créer par des étudiants de l'IUT de la Roche-sur-Yon.
 Vous êtes sur la page principal du projet.
