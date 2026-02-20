@@ -131,6 +131,7 @@ Projet réalisé par les étudiants de l'**IUT de La Roche-sur-Yon**.
 ## Qualification de la maquette
 
 Ce prototype est une **maquette fonctionnelle** destinée à démontrer les capacités d'un système RAG local. Il est conçu pour des tests et des évaluations techniques, et peut être amélioré pour une utilisation en production.
+🚧 PROCHAINEMENT... 🚧 (AVRIL 2026)
 
 ---
 
