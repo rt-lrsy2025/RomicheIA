@@ -90,13 +90,13 @@ L'infrastructure repose sur une architecture locale avec :
 
 ## Tutoriel d'installation
 
-*(À compléter)*
+*(PROCHAINEMENT...)*
 
 ---
 
 ## Sources
 
-*(À compléter)*
+*(PROCHAINEMENT...)*
 
 ---
 
