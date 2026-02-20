@@ -84,6 +84,8 @@ L'infrastructure repose sur une architecture locale avec :
 - Visualiser et gérer les workflows.
 - Accéder aux fonctionnalités de recherche et de génération.
 
+<img width="668" height="435" alt="image" src="https://github.com/user-attachments/assets/c99a93f2-45c9-4562-91bc-b376a7ccd030" />
+
 ---
 
 ## Tutoriel d'installation
