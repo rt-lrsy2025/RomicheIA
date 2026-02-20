@@ -26,6 +26,28 @@ Romiche IA est un projet visant à créer un système de **Retrieval-Augmented G
 
 ---
 
+# Ce que la solution est capable de faire aujourd'hui
+
+
+| Catégorie                               | Essentiel                                                          | Important                                                                                      |
+| --------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| **Traitement de Documents & Résumé**    | ✅ Synthèse de documents                                            | 🟠 Interface facile d’utilisation                                                              |
+|                                         | ✅ Obtenir un résumé rapide de documents longs                      | 🟠 Réaliser une analyse synthétique de réflexion de ces documents                              |
+| **Recherche et Extraction Précise**     | ✅ Traitement de Documents & Résumé                                 | ✅ Accéder rapidement à une information fiable sur le domaine de l’IUT                          |
+|                                         | ✅ Recherche et Extraction Précise de données au sein d’un document | (exemple : Informations sur l’IUT siège social, Informations sur l’offre de l’IUT...)  |
+| **Analyse, Modélisation & Décisionnel** | ❌ Non testé                                                        | ❌ Analyse, Modélisation & Décisionnel (Demandes Complexes)                                     |
+| **(Demandes Complexes)**                |                                                                    | ❌ Déterminer la capacité d’accueil, des alternants, étudiant à l’étranger |
+|                                         |                                                                    | ❌ En fonction des capacités d’accueil, définir le nombre de professeurs à avoir                |
+
+
+### Légende :
+
+- ✅ Validé
+- 🟠 Résultat Moyen
+- ❌ Non testé
+
+---
+
 ## Applications Docker
 
 Le projet utilise **Docker Compose** pour déployer les applications suivantes :
