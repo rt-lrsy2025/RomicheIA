@@ -1,35 +1,114 @@
 # RomicheIA
 <img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
 
-Fais moi un readme propre : 
-Romiche IA est un prototype de RAG IA autonome et local créer par des étudiants de l'IUT de la Roche-sur-Yon.
-Vous êtes sur la page principal du projet.
+# Romiche IA
 
-Les dossiers : 
-Backup --> Contient les backup des workflows N8N.
+**Prototype de RAG IA autonome et local**  
+Développé par des étudiants de l'**IUT de La Roche-sur-Yon**.
+
+---
+
+## Description
+
+Romiche IA est un projet visant à créer un système de **Retrieval-Augmented Generation (RAG)** entièrement local et autonome. Ce prototype permet de gérer des workflows, des bases de données vectorielles, et des modèles de langage, le tout hébergé en local pour une utilisation sécurisée et personnalisable.
+
+---
+
+## Structure du projet
+
+### Dossiers
 
 
-Que contient docker compose comme application ?
-- Qdrant
-- N8N
-- Openldap
-- OpenWebUI
+| Dossier  | Description                                     |
+| -------- | ----------------------------------------------- |
+| `Backup` | Contient les sauvegardes des workflows **N8N**. |
 
-Informations tecniques modèles : 
-Reranking : BGE-Reranker
-LLM : Miinistral3B, Ministral 8B, Llama3.2:3B, Llama3.2:1B
-Emebedding : embeddinggemma
 
-Machine de test du prototype : 
-“HP Elite 600 G9” : 
-Rôle : Serveur
-Application : Docker (Ollama, Openldap, Openwebui, n8n, qdrant, ldap)
-Modèles : “HP Elite 600 G9”
-CPU : Intel® Core™ i5-12500 - 3.00 GHz à 4.60 GHz
-RAM : 32 Go - DDR5
-GPU : Intel UHD Graphics 770
-Stockage : SSD SATA 512 Go 2.5”
-OS : Windows 11
+---
+
+## Applications Docker
+
+Le projet utilise **Docker Compose** pour déployer les applications suivantes :
+
+- **Qdrant** : Base de données vectorielle pour le stockage et la recherche d'embeddings.
+- **N8N** : Outil d'automatisation des workflows.
+- **OpenLDAP** : Service d'annuaire pour la gestion des utilisateurs et des permissions.
+- **OpenWebUI** : Interface graphique pour interagir avec les modèles de langage.
+
+---
+
+## Détails techniques
+
+### Modèles utilisés
+
+
+| Type          | Modèle                                          |
+| ------------- | ----------------------------------------------- |
+| **Reranking** | BGE-Reranker                                    |
+| **LLM**       | Mistral3B, Mistral 8B, Llama3.2:3B, Llama3.2:1B |
+| **Embedding** | embedding-gemma                                 |
+
+
+### Machine de test
+
+
+| Composant        | Spécifications                                    |
+| ---------------- | ------------------------------------------------- |
+| **Rôle**         | Serveur                                           |
+| **Applications** | Docker (Ollama, OpenLDAP, OpenWebUI, N8N, Qdrant) |
+| **CPU**          | Intel® Core™ i5-12500 (3.00 GHz - 4.60 GHz)       |
+| **RAM**          | 32 Go - DDR5                                      |
+| **GPU**          | Intel UHD Graphics 770                            |
+| **Stockage**     | SSD SATA 512 Go 2.5"                              |
+| **OS**           | Windows 11                                        |
+
+
+---
+
+## Infrastructure
+
+L'infrastructure repose sur une architecture locale avec :
+
+- **Docker** pour la conteneurisation des services.
+- **Ollama** pour le déploiement des modèles de langage.
+- **Qdrant** pour la gestion des embeddings et la recherche vectorielle.
+- **OpenLDAP** pour la gestion centralisée des utilisateurs.
+
+---
+
+## Interface graphique
+
+**OpenWebUI** est utilisée comme interface principale pour :
+
+- Interagir avec les modèles de langage.
+- Visualiser et gérer les workflows.
+- Accéder aux fonctionnalités de recherche et de génération.
+
+---
+
+## Tutoriel d'installation
+
+*(À compléter)*
+
+---
+
+## Sources
+
+*(À compléter)*
+
+---
+
+## Crédits
+
+Projet réalisé par les étudiants de l'**IUT de La Roche-sur-Yon**.
+
+---
+
+## Qualification de la maquette
+
+Ce prototype est une **maquette fonctionnelle** destinée à démontrer les capacités d'un système RAG local. Il est conçu pour des tests et des évaluations techniques, et peut être amélioré pour une utilisation en production.
+
+---
 
 
 ---
