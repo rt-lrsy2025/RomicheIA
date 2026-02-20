@@ -1,6 +1,7 @@
 # RomicheIA
 <img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
 
+Fais moi un readme propre : 
 Romiche IA est un prototype de RAG IA autonome et local créer par des étudiants de l'IUT de la Roche-sur-Yon.
 Vous êtes sur la page principal du projet.
 
@@ -13,6 +14,22 @@ Que contient docker compose comme application ?
 - N8N
 - Openldap
 - OpenWebUI
+
+Informations tecniques modèles : 
+Reranking : BGE-Reranker
+LLM : Miinistral3B, Ministral 8B, Llama3.2:3B, Llama3.2:1B
+Emebedding : embeddinggemma
+
+Machine de test du prototype : 
+“HP Elite 600 G9” : 
+Rôle : Serveur
+Application : Docker (Ollama, Openldap, Openwebui, n8n, qdrant, ldap)
+Modèles : “HP Elite 600 G9”
+CPU : Intel® Core™ i5-12500 - 3.00 GHz à 4.60 GHz
+RAM : 32 Go - DDR5
+GPU : Intel UHD Graphics 770
+Stockage : SSD SATA 512 Go 2.5”
+OS : Windows 11
 
 
 ---
