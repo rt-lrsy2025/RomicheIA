@@ -1,7 +1,9 @@
 # RomicheIA
-<img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
+<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/2e46e77c-1980-45f7-b3f6-b5f7fb74b0ee" />
 
 # Romiche IA
+Version : 1.0 (Bêta)
+Dernière mise à jour : 21 février 2026
 
 **Prototype de RAG IA autonome et local**  
 Développé par des étudiants de l'**IUT de La Roche-sur-Yon**.
