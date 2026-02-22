@@ -211,7 +211,10 @@ Your task is to answer questions **exclusively** using the provided Qdrant conte
 - **Task Instruction** : `retrieve relevant passages that answer the query`
 
 ---
-
+## **Tableau de suivi**
+1) Suivi des fichiers dans la base de donnée
+2) Tableau de suivi des modifications, ajouts de nouveaux fichiers
+---
 ## **Remarques**
 
 - Pour toute question ou problème, vérifier les **logs** et les **paramètres** de chaque nœud.
