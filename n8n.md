@@ -102,7 +102,7 @@ Ce workflow s’occupe de mettre à jour les documents internes.
 
 ---
 
-### **Workflow Database**
+### **Workflow RAG**
 
 #### **Paramètres des Nœuds**
 
