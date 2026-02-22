@@ -6,6 +6,10 @@
 ## **Téléchargement des Workflows**
 
 - Télécharger les workflows dans l’espace dédié **XXXXX**.
+- Que contiennent t-ils ?
+2 tableaux de suivi de base de donnée.
+2 Workflows
+  
 - Pour mieux comprendre chaque étape, consulter les **settings** de chaque nœud : des notes explicatives y sont souvent présentes.
 
 ---
