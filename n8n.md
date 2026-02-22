@@ -218,4 +218,3 @@ Your task is to answer questions **exclusively** using the provided Qdrant conte
 
 ---
 
-N’hésitez pas à me demander si vous souhaitez ajouter ou modifier des sections !
