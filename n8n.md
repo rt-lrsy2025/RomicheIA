@@ -70,6 +70,7 @@ Ce workflow automatise la création de la base de données vectorielle, utilisé
 ---
 
 ### **Workflow d’Actualisation des Données**
+<img width="744" height="1181" alt="workflow maintien bdd drawio" src="https://github.com/user-attachments/assets/7f83a395-f3b0-4b37-8333-74fd2f24df85" />
 
 #### **Fonctionnement**
 
