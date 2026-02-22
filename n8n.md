@@ -213,7 +213,11 @@ Your task is to answer questions **exclusively** using the provided Qdrant conte
 ---
 ## **Tableau de suivi**
 1) Suivi des fichiers dans la base de donnée
+<img width="1200" height="624" alt="image" src="https://github.com/user-attachments/assets/806cadc9-ab76-482a-ae78-d31f8ae7f454" />
+
 2) Tableau de suivi des modifications, ajouts de nouveaux fichiers
+<img width="1172" height="359" alt="image" src="https://github.com/user-attachments/assets/9f193320-7352-4ea6-81ce-d6fa521cec68" />
+
 ---
 ## **Remarques**
 
