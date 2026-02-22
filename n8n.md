@@ -1,4 +1,5 @@
 # N8N : Guide de Configuration des Workflows
+**Dernière mise à jour :** 22/02/2026
 
 ---
 
