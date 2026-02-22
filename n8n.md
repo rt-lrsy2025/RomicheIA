@@ -155,13 +155,13 @@ Your task is to answer questions **exclusively** using the provided Qdrant conte
      - **ID** (e.g., `5eacad22-d8f2-4e6f-a437-e20544a57f77`)
 
    - Example citation format:
-     *"According to [Filename: RT3/SAE54ProjetRechercheetInnovation/Tableau/Listes_Contacts_Stage_Alternance.xlsx, ID: 5eacad22-d8f2-4e6f-a437-e20544a57f77], the contact emails for Nantes Université are: patricia.marolleau@univ-nantes.fr, lucile.deletre@univ-nantes.fr."*
+     *"According to [Filename: RT3/SAE54ProjetRechercheetInnovation/Tableau/Listes_Contacts_Stage_Alternance.xlsx, ID: 5eacad22-d8f2-4e6f-a437-e20544a57f77], the email addresses for entreprise&co are: first.name@entreprise&co.fr"*
 
 3. **Metadata Utilization**:
    - If the context includes metadata (e.g., `Organisme / Entité`, `lines`), use it to **enhance clarity**.
 
    - Example:
-     *"From [Filename: RT3/SAE54ProjetRechercheetInnovation/Tableau/Listes_Contacts_Stage_Alternance.xlsx, ID: 1088c972-16f8-48ab-a053-c25d25c71e24, Lines 1-1], the email addresses for DGFIP (Finances publiques) are: gwenaelle.nicolet@impots.gouv.fr, valerie.soubra@impots.gouv.fr."*
+     *"From [Filename: RT3/SAE54ProjetRechercheetInnovation/Tableau/Listes_Contacts_Stage_Alternance.xlsx, ID: 1088c972-16f8-48ab-a053-c25d25c71e24, Lines 1-1], the email addresses for entreprise&co are: first.name@entreprise&co.fr."*
 
 4. **Ambiguity Handling**:
    - If the context is unclear or insufficient, respond:
