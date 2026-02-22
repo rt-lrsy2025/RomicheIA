@@ -47,9 +47,9 @@ Ce workflow s’occupe du traitement des requêtes utilisateurs.
 ---
 
 ### **Workflow d’Ingestion de Données**
+<img width="792" height="1071" alt="workflow initialisation bdd drawio" src="https://github.com/user-attachments/assets/815bfc8d-18ad-4d2b-807e-156d747b6108" />
 
 #### **Fonctionnement**
-
 Ce workflow automatise la création de la base de données vectorielle, utilisé pour la première vectorisation.
 
 - **Connexion à Uncloud** :
