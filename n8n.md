@@ -114,7 +114,6 @@ Ce workflow s’occupe de mettre à jour les documents internes.
 
 - **Collection** : Sélectionner la BDD de votre choix.
 
----
 
 #### **3. Default Data Loader**
 
