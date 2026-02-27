@@ -121,8 +121,11 @@ L'infrastructure repose sur une architecture locale avec :
 ## Sources
 
 *(PROCHAINEMENT...)*
-https://sarthakai.substack.com/p/i-took-my-rag-pipelines-from-60-to
-https://medium.com/@barkaleamol/the-beginners-guide-to-building-a-rag-system-with-qdrant-e633d1630a61
+
+Rastogi, S. (2025, 17 septembre). I took my RAG pipelines to 98 % accuracy only once I understood these techniques. AI Agent Engineering. https://sarthakai.substack.com/p/i-took-my-rag-pipelines-from-60-to
+Amol Barkale. (2025, July 7). The Beginner’s Guide to Building a RAG System with Qdrant. Medium. https://medium.com/@barkaleamol/the-beginners-guide-to-building-a-rag-system-with-qdrant-e633d1630a61
+
+‌
 ---
 
 ## Crédits
