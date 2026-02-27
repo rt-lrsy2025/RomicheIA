@@ -121,7 +121,8 @@ L'infrastructure repose sur une architecture locale avec :
 ## Sources
 
 *(PROCHAINEMENT...)*
-
+https://sarthakai.substack.com/p/i-took-my-rag-pipelines-from-60-to
+https://medium.com/@barkaleamol/the-beginners-guide-to-building-a-rag-system-with-qdrant-e633d1630a61
 ---
 
 ## Crédits
