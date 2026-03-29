@@ -1,0 +1,4024 @@
+{
+  "name": "Nextcloud_Verifier_Creation_Fichier",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d3b05e2a-d399-4aae-b2c4-f38731258227",
+              "leftValue": "={{ $json.lastModified }}",
+              "rightValue": "={{ $now.minus({ minutes: 60 }) }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        16
+      ],
+      "id": "007dc869-a979-471e-8a3e-bd815f7736e7",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -192
+      ],
+      "id": "b54bb553-c53f-47ba-9e30-ede850812e7a",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba1b35ac-dca1-41ad-9560-9bb01ae66452",
+              "name": "Mon_Alerte",
+              "value": "=📢 **Alerte Nextcloud : Nouveau fichier** \n📄 Nom : {{ $json.path}} \n⏰ Modifié le : {{ $json.lastModified }}",
+              "type": "string"
+            },
+            {
+              "id": "00138300-75e6-4472-80da-6f72a7343067",
+              "name": "Chemin_Fichier",
+              "value": "={{ $json.path}} ",
+              "type": "string"
+            },
+            {
+              "id": "b30ed37e-b5b5-493d-8d58-f8536cae5679",
+              "name": "Date_Modification",
+              "value": "={{ $json.lastModified }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        208
+      ],
+      "id": "72d2a89f-8917-4d9a-a98d-8aa200e53160",
+      "name": "Alerte_MSG_New_Fichier"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "dJLOGQ7v6RMPLp49",
+          "mode": "list",
+          "cachedResultName": "Historique_Nouveau_Fichier_Nextcloud",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/dJLOGQ7v6RMPLp49"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Chemin_Fichier": "={{ $('Download a file').item.json.path }}",
+            "Date_Modification": "={{ $('Download a file').item.json.lastModified }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Chemin_Fichier",
+              "displayName": "Chemin_Fichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date_Modification",
+              "displayName": "Date_Modification",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        352
+      ],
+      "id": "b2ae062b-4ebf-44f0-bc5f-49c150b6762e",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "list",
+        "path": "/RT3/SAE54ProjetRechercheetInnovation/RAG - PDFs"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -192
+      ],
+      "id": "16bb1d3c-ae3d-4bfc-83fd-ef6caaf017bc",
+      "name": "Liste Dossier Doc IUT2",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        304,
+        -192
+      ],
+      "id": "de379713-67d5-4ec1-8867-47ef1b42758f",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        2912
+      ],
+      "id": "a1bddb95-cffd-4a09-8ddc-87898a0a9d82",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "path": "={{decodeURIComponent($json.path)}}"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        752,
+        2800
+      ],
+      "id": "cd96b18f-af59-4abc-9442-e58ac21d74fa",
+      "name": "Download a file2",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "list",
+        "path": "/RT3/SAE54ProjetRechercheetInnovation/RAG - PDFs"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        2752
+      ],
+      "id": "ad68a313-e462-442a-b4bf-2f48b85db1cc",
+      "name": "Liste Dossier Doc IUT1",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      },
+      "notes": "Liste les fichiers contenu dans un dossier Uncloud"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "list",
+        "path": "/RT3/SAE54ProjetRechercheetInnovation/Dataset"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        2992
+      ],
+      "id": "5f781e23-2b8a-4b8a-8f06-29b4ef271dc7",
+      "name": "Liste Dossier Test 1",
+      "notesInFlow": false,
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      },
+      "notes": "Contient des documents en tout genre sur des entreprises, chansons..."
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "125f5a98-05ed-4fd6-8a59-c06e7290314a",
+                    "leftValue": "={{ decodeURIComponent($json.path) }}",
+                    "rightValue": "RT3/SAE54ProjetRechercheetInnovation/RAG - PDFs/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IUT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8c4392f1-794b-414b-9165-cf05d8e96c93",
+                    "leftValue": "={{ decodeURIComponent($json.path) }}",
+                    "rightValue": "RT3/SAE54ProjetRechercheetInnovation/Dataset/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "TEST"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8819207b-1423-4596-bd8d-f52715d15c2c",
+                    "leftValue": "={{ decodeURIComponent ( $json.path )}}",
+                    "rightValue": "RT3/SAE54ProjetRechercheetInnovation/Tableau/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IUT_TAB_DATA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        224,
+        2960
+      ],
+      "id": "6cd00681-436c-4714-bd48-5eae0b3a793f",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "path": "={{decodeURIComponent($json.path)}}"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        640,
+        3328
+      ],
+      "id": "efa5fffd-7259-4c11-b9e3-4b6683a1106c",
+      "name": "Download a file3",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        560,
+        2608
+      ],
+      "id": "f0b4c36b-5f6a-41ce-af43-876a3c739628",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        3040
+      ],
+      "id": "b2a8bd3a-5392-4019-8581-1c56a353c90b",
+      "name": "Loop Over Items5"
+    },
+    {
+      "parameters": {
+        "content": "Module pour vectoriser la base de donnée avec des tags dans une seule collection nommé r ag_collection_tout_en_un",
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -864,
+        2640
+      ],
+      "typeVersion": 1,
+      "id": "ff39ff2b-c081-4efe-a0a5-e1187cd7c014",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.contentType }}",
+                    "rightValue": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "dfc90e74-7744-417d-8fd8-12a36c235788"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XLSX"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9ac9e886-71f5-4093-940c-b3b3a8376afd",
+                    "leftValue": "={{ $json.contentType }}",
+                    "rightValue": "text/csv",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CSV"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        528,
+        3808
+      ],
+      "id": "c3009544-3ec8-4c8d-8ec4-ebe8b4836568",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        688,
+        3920
+      ],
+      "id": "4f54e6e1-d76f-4ed7-a7c1-a89ee20c62ae",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "list",
+        "path": "/RT3/SAE54ProjetRechercheetInnovation/Tableau/"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        3184
+      ],
+      "id": "6ec65b8f-de93-4d84-b2b2-fa20e53f3894",
+      "name": "Liste Dossier Doc IUT Tableau Excel DATA",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      },
+      "notes": "Liste les fichiers contenu dans un dossier Uncloud"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        304,
+        3808
+      ],
+      "id": "d13836ab-1dcb-4704-8b34-6399828d5e47",
+      "name": "Loop Over Items6"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "binaryPropertyName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        688,
+        3680
+      ],
+      "id": "35e78a51-33f8-4ffc-a9c1-f9b9d0f76d45",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        848,
+        3808
+      ],
+      "id": "f403c797-02c6-4156-b50b-f32efcbbd88d",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "path": "={{decodeURIComponent($json.path)}}"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        416,
+        3808
+      ],
+      "id": "2861222c-dfc7-4210-8b3e-614a9917d830",
+      "name": "Download a file4",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "list",
+        "path": "/RT3/SAE54ProjetRechercheetInnovation/Tableau/"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        32,
+        256
+      ],
+      "id": "89fd6f41-a643-45f1-bc37-e84565530fc7",
+      "name": "Liste Dossier Doc IUT Tableau Excel DATA1",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        288,
+        272
+      ],
+      "id": "db8c6c77-29da-4224-abf9-c594a05b9b2b",
+      "name": "Loop Over Items8"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        288,
+        48
+      ],
+      "id": "fecf3e9e-1d28-4baf-a9c0-d297f6b84032",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "list",
+        "path": "/RT3/SAE54ProjetRechercheetInnovation/Dataset"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        32,
+        32
+      ],
+      "id": "869ea4c5-e4d3-42bd-bd3b-f6bed6c7f607",
+      "name": "Liste_Dossier_Test",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Scan des dossiers cloud nouvelle vectorisation en cas de changement\n",
+        "height": 80,
+        "width": 2384
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -544,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "386a7b4e-ec57-4016-a263-171d0c455792",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "scrollPoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "name"
+        },
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": {\n        \"value\": \"{{ $json.path }}\"\n\n      }\n    }\n  ]\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        864,
+        2640
+      ],
+      "id": "b1f984ad-b899-4a4c-9c69-483f55d18d85",
+      "name": "Scroll Points1",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "En programmation classique, \"is empty\" veut dire \"\" (chaîne vide). Dans Qdrant :\nis_empty = La clé est absente du JSON.\nis_not_empty = La clé est présente (peu importe ce qu'il y a dedans)."
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 10,
+        "options": {
+          "contentPayloadKey": "content",
+          "metadataPayloadKey": "metadata"
+        }
+      },
+      "id": "7fc00877-8e77-4329-9da2-21183a967e51",
+      "name": "Qdrant Vector Store12",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        1536,
+        2608
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "sFfERYppMeBnFNeA",
+          "name": "Local QdrantApi database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        2800
+      ],
+      "id": "165df47c-8d93-43b0-ae57-dbaa6b9fa7de",
+      "name": "Embeddings Ollama12",
+      "credentials": {
+        "ollamaApi": {
+          "id": "xHuYe0MDGOs9IpBW",
+          "name": "Local Ollama service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "binaryDataKey": "={{ $('Download a file2').item.binary.data }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "filename",
+                "value": "={{ $('Download a file2').item.json.path }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        2768
+      ],
+      "id": "57e462db-1d6c-4140-a153-6fac1cb78b61",
+      "name": "Default Data Loader12"
+    },
+    {
+      "parameters": {
+        "separator": ",",
+        "chunkSize": 800,
+        "chunkOverlap": 200
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        2928
+      ],
+      "id": "236d4513-be58-4d03-bfdb-5ac15957909a",
+      "name": "Character Text Splitter6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "090981fb-e6b1-4819-bd1f-3c7aba1e3757",
+              "leftValue": "={{ $json.result.points.length }}\n\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        976,
+        2464
+      ],
+      "id": "587937eb-755e-47fa-a429-14f172a87e29",
+      "name": "If2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        2736
+      ],
+      "id": "a6b32847-936c-406f-8ff8-fba68a2e4f73",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Download a file2').item.json.path }}",
+            "lastmodified": "={{ $('Download a file2').item.json.path }}",
+            "nomdossier": "Doc_IUT"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        2560
+      ],
+      "id": "b9f8d357-e77d-46cf-ad89-fc8a7b8c631e",
+      "name": "Insert row2"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 10,
+        "options": {
+          "contentPayloadKey": "content",
+          "metadataPayloadKey": "metadata"
+        }
+      },
+      "id": "82fbeb3d-2afe-49cf-8f62-c5af98d60551",
+      "name": "Qdrant Vector Store13",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        1248,
+        3296
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "sFfERYppMeBnFNeA",
+          "name": "Local QdrantApi database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        3440
+      ],
+      "id": "b2fe8d4f-569f-4811-aea5-715203813d8d",
+      "name": "Embeddings Ollama13",
+      "credentials": {
+        "ollamaApi": {
+          "id": "xHuYe0MDGOs9IpBW",
+          "name": "Local Ollama service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "binaryDataKey": "={{ $('Download a file3').item.binary.data }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "filename",
+                "value": "={{ $('Download a file3').item.json.path }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        3424
+      ],
+      "id": "d171fb01-435e-4134-a7f3-53360857ef9c",
+      "name": "Default Data Loader13"
+    },
+    {
+      "parameters": {
+        "separator": ",",
+        "chunkSize": 800,
+        "chunkOverlap": 200
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        3552
+      ],
+      "id": "7a604482-ccb0-4422-8d1b-45dbf02b693a",
+      "name": "Character Text Splitter8"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "scrollPoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": {\n        \"value\": \"{{ $json.path }}\"\n\n      }\n    }\n  ]\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        768,
+        3344
+      ],
+      "id": "722f02c4-3d6d-4c50-a9b3-48e0824459a0",
+      "name": "Scroll Points",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "En programmation classique, \"is empty\" veut dire \"\" (chaîne vide). Dans Qdrant :\nis_empty = La clé est absente du JSON.\nis_not_empty = La clé est présente (peu importe ce qu'il y a dedans)."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "090981fb-e6b1-4819-bd1f-3c7aba1e3757",
+              "leftValue": "={{ $json.result.points.length }}\n\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        3328
+      ],
+      "id": "f8b36b17-fdd5-4c94-8b6b-66ca77bb29d2",
+      "name": "If3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        3456
+      ],
+      "id": "cb493313-dc21-4935-8a7d-45dfe6823202",
+      "name": "No Operation, do nothing3"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Liste Dossier Test 1').item.json.path }}",
+            "lastmodified": "={{ $('Liste Dossier Test 1').item.json.lastModified }}",
+            "nomdossier": "Doc_Dataset_Test"
+          },
+          "matchingColumns": [
+            "nomfichier"
+          ],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        3168
+      ],
+      "id": "fd5e057f-c918-46d8-b118-ee139a16d954",
+      "name": "Insert row4"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 10,
+        "options": {
+          "contentPayloadKey": "content",
+          "metadataPayloadKey": "metadata"
+        }
+      },
+      "id": "717226fe-4911-427b-ab70-b765039a4e78",
+      "name": "Qdrant Vector Store14",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        1472,
+        4160
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "sFfERYppMeBnFNeA",
+          "name": "Local QdrantApi database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        4336
+      ],
+      "id": "7ce67065-493e-4dee-821f-baf69eaed1a1",
+      "name": "Embeddings Ollama14",
+      "credentials": {
+        "ollamaApi": {
+          "id": "xHuYe0MDGOs9IpBW",
+          "name": "Local Ollama service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $('Summarize4').item.json.concatenated_data }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "filename",
+                "value": "={{ $('Download a file4').item.json.path }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1536,
+        4320
+      ],
+      "id": "a18fd033-66c2-4182-bb2e-374ff27741dd",
+      "name": "Default Data Loader14"
+    },
+    {
+      "parameters": {
+        "separator": ",",
+        "chunkSize": 800,
+        "chunkOverlap": 200
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        4448
+      ],
+      "id": "ae068a92-d645-489b-bf39-873bdcd3b59a",
+      "name": "Character Text Splitter9"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "scrollPoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": {\n        \"value\": \"{{ $('Liste Dossier Doc IUT Tableau Excel DATA').item.json.path }}\"\n\n      }\n    }\n  ]\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        944,
+        4224
+      ],
+      "id": "e874b765-52a8-414e-a7ab-8afa6654ab72",
+      "name": "Scroll Points2",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "En programmation classique, \"is empty\" veut dire \"\" (chaîne vide). Dans Qdrant :\nis_empty = La clé est absente du JSON.\nis_not_empty = La clé est présente (peu importe ce qu'il y a dedans)."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "090981fb-e6b1-4819-bd1f-3c7aba1e3757",
+              "leftValue": "={{ $json.result.points.length }}\n\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1072,
+        4224
+      ],
+      "id": "1939fa9f-e761-4e64-b8fd-ebbf225ca761",
+      "name": "If4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        4352
+      ],
+      "id": "0c69d67d-fed4-4993-8777-e08403bb177e",
+      "name": "No Operation, do nothing4"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Liste Dossier Doc IUT Tableau Excel DATA').item.json.path }}",
+            "lastmodified": "={{ $('Liste Dossier Doc IUT Tableau Excel DATA').item.json.lastModified }}",
+            "nomdossier": "Doc_IUT_Tableau"
+          },
+          "matchingColumns": [
+            "nomfichier"
+          ],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        4160
+      ],
+      "id": "8507fb93-a65e-4e39-9ce2-e93988af69df",
+      "name": "Insert row5"
+    },
+    {
+      "parameters": {
+        "operation": "createCollection",
+        "collectionName": "rag_collection_tout_en_un_v3_test",
+        "vectors": "{\n  \"size\": 768,\n  \"distance\": \"Cosine\"\n}",
+        "shardNumber": {},
+        "replicationFactor": {},
+        "writeConsistencyFactor": {},
+        "hnswConfig": "{\n  \"full_scan_threshold\": 1000\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        3184
+      ],
+      "id": "9b9ed727-5112-4caa-8948-a85b2b5b9883",
+      "name": "Create Collection",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        976,
+        3808
+      ],
+      "id": "7902af97-c360-43ed-a2a3-deaa85ff721e",
+      "name": "Summarize4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Liste Dossier Doc IUT Tableau Excel DATA1').item.json.contentType }}",
+                    "rightValue": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "dfc90e74-7744-417d-8fd8-12a36c235788"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XLSX"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9ac9e886-71f5-4093-940c-b3b3a8376afd",
+                    "leftValue": "={{ $('Liste Dossier Doc IUT Tableau Excel DATA1').item.json.contentType }}",
+                    "rightValue": "text/csv",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CSV"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        1104,
+        1552
+      ],
+      "id": "f528f6fd-70e6-41d9-b9ba-3dc7cd08d857",
+      "name": "Switch10"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1264,
+        1664
+      ],
+      "id": "b0bc8947-3e85-4373-99a2-58a166f36586",
+      "name": "Extract from File4"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "binaryPropertyName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1264,
+        1424
+      ],
+      "id": "0dc2ea22-b445-48d4-a76d-f542f7d2adf7",
+      "name": "Extract from File5"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        1552
+      ],
+      "id": "35f2898b-f1cd-4f80-8316-f2c10ce47b3a",
+      "name": "Aggregate4"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "scrollPoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": {\n        \"value\": \"{{ $json.path }}\"\n\n      }\n    }\n  ]\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        432
+      ],
+      "id": "da82f8aa-c734-4631-be89-1c0f0f152c38",
+      "name": "Scroll Points3",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "En programmation classique, \"is empty\" veut dire \"\" (chaîne vide). Dans Qdrant :\nis_empty = La clé est absente du JSON.\nis_not_empty = La clé est présente (peu importe ce qu'il y a dedans).\n\nCe noeud cherche la présence d'un fichier dnas la base de donnée pour éviter des doublons"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 10,
+        "options": {
+          "contentPayloadKey": "content",
+          "metadataPayloadKey": "metadata"
+        }
+      },
+      "id": "c4accf1e-39cb-4a5b-8878-ad4a72c80d95",
+      "name": "Qdrant Vector Store15",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        2512,
+        224
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "sFfERYppMeBnFNeA",
+          "name": "Local QdrantApi database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        416
+      ],
+      "id": "aa5e60c7-d892-4d51-8889-0f213797d3f1",
+      "name": "Embeddings Ollama15",
+      "credentials": {
+        "ollamaApi": {
+          "id": "xHuYe0MDGOs9IpBW",
+          "name": "Local Ollama service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "binaryDataKey": "={{ $('Download a file').item.binary.data }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "filename",
+                "value": "={{ $('Download a file').item.json.path }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        2624,
+        384
+      ],
+      "id": "e2ebeb3d-e7ef-4e38-9d3e-a09423708a6c",
+      "name": "Default Data Loader15"
+    },
+    {
+      "parameters": {
+        "separator": ",",
+        "chunkSize": 800,
+        "chunkOverlap": 200
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        2608,
+        544
+      ],
+      "id": "10797fa8-9f9b-40ae-9dc3-dd3112d1175e",
+      "name": "Character Text Splitter7"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "090981fb-e6b1-4819-bd1f-3c7aba1e3757",
+              "leftValue": "={{ $json.result.points.length }}\n\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1648,
+        224
+      ],
+      "id": "af164822-20de-4f9e-a4a1-e19f0732b0d6",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 10,
+        "options": {
+          "contentPayloadKey": "content",
+          "metadataPayloadKey": "metadata"
+        }
+      },
+      "id": "f3fc1613-1a85-44e4-85c4-2e9ff6765619",
+      "name": "Qdrant Vector Store16",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        2224,
+        1040
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "sFfERYppMeBnFNeA",
+          "name": "Local QdrantApi database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        1184
+      ],
+      "id": "d28c94a5-f082-4456-b9a2-aa3a25eb8d3c",
+      "name": "Embeddings Ollama16",
+      "credentials": {
+        "ollamaApi": {
+          "id": "xHuYe0MDGOs9IpBW",
+          "name": "Local Ollama service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "binaryDataKey": "={{ $('Download a file1').item.binary.data }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "filename",
+                "value": "={{ $('Download a file1').item.json.Chemin_Fichier }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        2336,
+        1168
+      ],
+      "id": "5428f08e-7291-4227-9222-39a03ebc3ee8",
+      "name": "Default Data Loader16"
+    },
+    {
+      "parameters": {
+        "separator": ",",
+        "chunkSize": 800,
+        "chunkOverlap": 200
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        2336,
+        1296
+      ],
+      "id": "3750e01e-c5c1-4704-8213-f95f33c1f966",
+      "name": "Character Text Splitter10"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "scrollPoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": {\n        \"value\": \"{{ $json.Chemin_Fichier }}\"\n      }\n    }\n  ]\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1056
+      ],
+      "id": "6b8128d3-e642-4423-9b57-d1ac5c5c17a7",
+      "name": "Scroll Points4",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "En programmation classique, \"is empty\" veut dire \"\" (chaîne vide). Dans Qdrant :\nis_empty = La clé est absente du JSON.\nis_not_empty = La clé est présente (peu importe ce qu'il y a dedans).\n\n\nCe noeud cherche la présence d'un fichier dnas la base de donnée pour éviter des doublons"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "090981fb-e6b1-4819-bd1f-3c7aba1e3757",
+              "leftValue": "={{ $json.result.points.length }}\n\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        1056
+      ],
+      "id": "e366085f-6c69-432f-b3fb-869e635a075c",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 10,
+        "options": {
+          "contentPayloadKey": "content",
+          "metadataPayloadKey": "metadata"
+        }
+      },
+      "id": "f2afd2c6-2c95-41d6-864a-bf35cd8f385d",
+      "name": "Qdrant Vector Store17",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        2464,
+        1904
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "sFfERYppMeBnFNeA",
+          "name": "Local QdrantApi database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        2112
+      ],
+      "id": "bac404a9-08f9-47c0-8292-bf9c8a6a8ecb",
+      "name": "Embeddings Ollama17",
+      "credentials": {
+        "ollamaApi": {
+          "id": "xHuYe0MDGOs9IpBW",
+          "name": "Local Ollama service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $('Summarize5').item.json.concatenated_data }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "filename",
+                "value": "={{ $('Liste Dossier Doc IUT Tableau Excel DATA1').item.json.path }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        2608,
+        2096
+      ],
+      "id": "1e3ee937-1921-4362-907b-234744043732",
+      "name": "Default Data Loader17"
+    },
+    {
+      "parameters": {
+        "separator": ",",
+        "chunkSize": 800,
+        "chunkOverlap": 200
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        2256
+      ],
+      "id": "4de8c7fb-a217-4ab6-b050-c67f270017a6",
+      "name": "Character Text Splitter11"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "scrollPoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": {\n        \"value\": \"{{ $('Liste Dossier Doc IUT Tableau Excel DATA1').item.json.path }}\"\n\n      }\n    }\n  ]\n}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        1968
+      ],
+      "id": "2c8b34e1-0a24-4de6-b6d0-d88b11748954",
+      "name": "Scroll Points5",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "En programmation classique, \"is empty\" veut dire \"\" (chaîne vide). Dans Qdrant :\nis_empty = La clé est absente du JSON.\nis_not_empty = La clé est présente (peu importe ce qu'il y a dedans).\n\n\nCe noeud cherche la présence d'un fichier dnas la base de donnée pour éviter des doublons"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "090981fb-e6b1-4819-bd1f-3c7aba1e3757",
+              "leftValue": "={{ $json.result.points.length }}\n\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1648,
+        1968
+      ],
+      "id": "382039e9-6734-4572-8a3e-9d8ff811da00",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Download a file5').item.json.path }}",
+            "lastmodified": "={{ $('Download a file5').item.json.lastModified }}",
+            "nomdossier": "Doc_IUT_Tableau"
+          },
+          "matchingColumns": [
+            "nomfichier"
+          ],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        1920
+      ],
+      "id": "f356b3c9-2ba7-45ab-8413-46e58bfed946",
+      "name": "Insert row7"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        1552,
+        1552
+      ],
+      "id": "68602aee-b7c7-48f4-81f6-cdaa6a9535f0",
+      "name": "Summarize5"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -448,
+        16
+      ],
+      "id": "c7cf87e6-2fb0-4ffc-9aa8-53c531513034",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "deletePoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "points": "null",
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": { \"value\": \"{{ $json.path }}\" }\n    }\n  ]\n}",
+        "wait": false,
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        2144,
+        496
+      ],
+      "id": "b370d536-f4c9-4e45-a932-083e2960a11d",
+      "name": "Delete Points",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "deletePoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "points": "null",
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": { \"value\": \"{{ $('Download a file1').item.json.Chemin_Fichier }}\" }\n    }\n  ]\n}",
+        "wait": false,
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        2064,
+        1280
+      ],
+      "id": "ca8b777e-c893-4bc6-a3a0-457237f421fe",
+      "name": "Delete Points1",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "point",
+        "operation": "deletePoints",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "name"
+        },
+        "points": "null",
+        "filter": "={\n  \"must\": [\n    {\n      \"key\": \"metadata.filename\",\n      \"match\": { \"value\": \"{{ $('Liste Dossier Doc IUT Tableau Excel DATA1').item.json.path }}\" }\n    }\n  ]\n}",
+        "wait": false,
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        2064,
+        2320
+      ],
+      "id": "bb2a0b2a-0607-4900-8ff0-8d0ae297e976",
+      "name": "Delete Points2",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        2336
+      ],
+      "id": "275d9bb8-5aab-47d8-a263-1fd12598cb3d",
+      "name": "No Operation, do nothing7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "path": "={{ $('Liste Dossier Doc IUT2').item.json.path }} "
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        432
+      ],
+      "id": "4ee65813-d966-4561-b619-35d8f6d61e11",
+      "name": "Download a file",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "path": "={{ decodeURIComponent ($('Liste_Dossier_Test').item.json.path) }}"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        1056
+      ],
+      "id": "3046ca0b-001a-476f-9ead-4460e5420665",
+      "name": "Download a file1",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "path": "={{ $('Liste Dossier Doc IUT Tableau Excel DATA1').item.json.path }}"
+      },
+      "type": "n8n-nodes-base.nextCloud",
+      "typeVersion": 1,
+      "position": [
+        432,
+        1744
+      ],
+      "id": "084a2019-c22f-47ec-96be-95b9c54bf0a5",
+      "name": "Download a file5",
+      "credentials": {
+        "nextCloudApi": {
+          "id": "YZtFG1pYLfS5Sj0S",
+          "name": "NextCloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "125f5a98-05ed-4fd6-8a59-c06e7290314a",
+                    "leftValue": "={{ $json.Chemin_Fichier }}",
+                    "rightValue": "RT3/SAE54ProjetRechercheetInnovation/RAG - PDFs/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IUT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8c4392f1-794b-414b-9165-cf05d8e96c93",
+                    "leftValue": "={{ $json.Chemin_Fichier }}",
+                    "rightValue": "RT3/SAE54ProjetRechercheetInnovation/Dataset/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "TEST"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8819207b-1423-4596-bd8d-f52715d15c2c",
+                    "leftValue": "={{ $json.Chemin_Fichier }}",
+                    "rightValue": "RT3/SAE54ProjetRechercheetInnovation/Tableau/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IUT_TAB_DATA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        832,
+        800
+      ],
+      "id": "c81d27b3-289f-4744-a001-bb05f1cbf496",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Download a file').item.json.path }}",
+            "lastmodified": "={{ $('Download a file').item.json.lastModified }}",
+            "nomdossier": "Doc_IUT_ Interne"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        224
+      ],
+      "id": "7fd0bd62-04bc-4f55-9ddc-72d44a46881d",
+      "name": "New_File_In_Tab",
+      "notes": "Ajoute dans le tableau de suivi N8N, (List de fichier BDD) uniquement les  documents vectorisés pour la première fois."
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "dJLOGQ7v6RMPLp49",
+          "mode": "list",
+          "cachedResultName": "Historique_Nouveau_Fichier_Nextcloud",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/dJLOGQ7v6RMPLp49"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Chemin_Fichier": "={{ $('Download a file1').item.json.Chemin_Fichier }}",
+            "Date_Modification": "={{ $('Download a file1').item.json.Date_Modification }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Chemin_Fichier",
+              "displayName": "Chemin_Fichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date_Modification",
+              "displayName": "Date_Modification",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        1168
+      ],
+      "id": "b3edb0c2-0ec2-4e50-8e9e-72d4a9df3ed6",
+      "name": "Insert row1"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "dJLOGQ7v6RMPLp49",
+          "mode": "list",
+          "cachedResultName": "Historique_Nouveau_Fichier_Nextcloud",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/dJLOGQ7v6RMPLp49"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Chemin_Fichier": "={{ $('Download a file5').item.json.path }}",
+            "Date_Modification": "={{ $('Download a file5').item.json.lastModified }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Chemin_Fichier",
+              "displayName": "Chemin_Fichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date_Modification",
+              "displayName": "Date_Modification",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        2096
+      ],
+      "id": "d133cadf-ec6e-4ceb-98e1-545e297292e9",
+      "name": "Insert row3"
+    },
+    {
+      "parameters": {
+        "operation": "collectionExists",
+        "collectionName": "rag_collection_tout_en_un_v3_test",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        2912
+      ],
+      "id": "2807f203-f715-44a2-8c89-cc47307b5556",
+      "name": "Check If Collection Exists",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      },
+      "notes": "Vérifie l'existence de la base de donnée.\nSi oui : Lance la vérification des fichiers\nSi non :  Créer la base de donnée"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        3296
+      ],
+      "id": "9c5da6b3-a194-4005-b3bb-c755441a8816",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "operation": "deleteRows",
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "condition": "gt",
+              "keyValue": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        2928
+      ],
+      "id": "79a1cefe-d791-45b5-8ba0-6b7c7a79206b",
+      "name": "Suppr_Row_Tab_Suivi_Fichier"
+    },
+    {
+      "parameters": {
+        "operation": "deleteRows",
+        "dataTableId": {
+          "__rl": true,
+          "value": "dJLOGQ7v6RMPLp49",
+          "mode": "list",
+          "cachedResultName": "Historique_Nouveau_Fichier_Nextcloud",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/dJLOGQ7v6RMPLp49"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "condition": "gt",
+              "keyValue": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -1520,
+        2912
+      ],
+      "id": "86160bd9-b6a1-40e9-aa42-65925d0da60d",
+      "name": "Suppr_Data_Tab_New_Modif_Fichier_Row"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.result.exists }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    },
+                    "id": "6d8a5f84-77c1-4c74-a6ed-c4c1836a2cc6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "true"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2d60c6bc-7b9e-40e8-aa9f-29c0fb9fc517",
+                    "leftValue": "={{ $json.result.exists }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -352,
+        2912
+      ],
+      "id": "6bfbc62f-92c8-49fc-86a6-629ade1ee040",
+      "name": "Switch3"
+    },
+    {
+      "parameters": {
+        "content": "## Raccourci gestion BDD - Réinitialisation\n\n",
+        "height": 480,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1568,
+        2656
+      ],
+      "typeVersion": 1,
+      "id": "695d3f63-51dd-4cad-a6fd-e22d9be7c30d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "deleteCollection",
+        "collectionName": {
+          "__rl": true,
+          "value": "rag_collection_tout_en_un_v3_test",
+          "mode": "list",
+          "cachedResultName": "rag_collection_tout_en_un_v3_test"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        -1536,
+        2752
+      ],
+      "id": "05c95a51-6401-4499-af1d-5269a44c28c7",
+      "name": "Delete Collection",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "wzmLiuTSuATXX3L7",
+          "name": "Qdrant account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "nomfichier",
+              "keyValue": "={{ $('Download a file1').item.json.Chemin_Fichier }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Download a file1').item.json.Chemin_Fichier }}",
+            "lastmodified": "={{ $('Download a file1').item.json.Date_Modification }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        864
+      ],
+      "id": "b18d4786-b034-4dd8-8aa7-126b94fa4a3c",
+      "name": "Update row(s)"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "nomfichier",
+              "keyValue": "={{ $('Download a file').item.json.path }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Download a file').item.json.path }}",
+            "lastmodified": "={{ $('Download a file').item.json.Date_Modification }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        32
+      ],
+      "id": "4964fc01-58e8-48ee-a9cf-3c997418f137",
+      "name": "Update row(s)1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "nomfichier",
+              "keyValue": "={{ $('Download a file5').item.json.path }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Download a file5').item.json.path }}",
+            "lastmodified": "={{ $('Download a file5').item.json.Date_Modification }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        1744
+      ],
+      "id": "ef954109-ea1a-442a-a90a-d2eaf65981c8",
+      "name": "Update row(s)2"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "aRCn9E9UFhkYjqsN",
+          "mode": "list",
+          "cachedResultName": "List_Fichier_BDD",
+          "cachedResultUrl": "/projects/QaCjestE51NJUe7c/datatables/aRCn9E9UFhkYjqsN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomfichier": "={{ $('Liste_Dossier_Test').item.json.path }}",
+            "lastmodified": "={{ $('Liste_Dossier_Test').item.json.lastModified }}",
+            "nomdossier": "Doc_Dataset_Test"
+          },
+          "matchingColumns": [
+            "nomfichier"
+          ],
+          "schema": [
+            {
+              "id": "nomfichier",
+              "displayName": "nomfichier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastmodified",
+              "displayName": "lastmodified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nomdossier",
+              "displayName": "nomdossier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        896
+      ],
+      "id": "ed1f5d85-74a5-4e9c-ac5b-fe376277c3cd",
+      "name": "Insert row6"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alerte_MSG_New_Fichier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alerte_MSG_New_Fichier": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Delete Points",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste Dossier Doc IUT2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Check If Collection Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file2": {
+      "main": [
+        [
+          {
+            "node": "Scroll Points1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste Dossier Doc IUT1": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste Dossier Test 1": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file3": {
+      "main": [
+        [
+          {
+            "node": "Scroll Points",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download a file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items5": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download a file3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste Dossier Doc IUT Tableau Excel DATA": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items6": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Loop Over Items6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download a file4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Summarize4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file4": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste Dossier Doc IUT Tableau Excel DATA1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items8": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Loop Over Items8",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste_Dossier_Test": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scroll Points1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama12": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store12",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader12": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store12",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter6": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader12",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Insert row2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row2": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama13": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store13",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter8": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader13",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader13": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store13",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scroll Points": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Insert row4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store13": {
+      "main": [
+        []
+      ]
+    },
+    "Qdrant Vector Store12": {
+      "main": [
+        []
+      ]
+    },
+    "Qdrant Vector Store14": {
+      "main": [
+        []
+      ]
+    },
+    "Embeddings Ollama14": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store14",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader14": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store14",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter9": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader14",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scroll Points2": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Insert row5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row5": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row4": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize4": {
+      "main": [
+        [
+          {
+            "node": "Scroll Points2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch10": {
+      "main": [
+        [
+          {
+            "node": "Extract from File5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract from File4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File4": {
+      "main": [
+        [
+          {
+            "node": "Aggregate4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File5": {
+      "main": [
+        [
+          {
+            "node": "Aggregate4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate4": {
+      "main": [
+        [
+          {
+            "node": "Summarize5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scroll Points3": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama15": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store15",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader15": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store15",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter7": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader15",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "New_File_In_Tab",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama16": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store16",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader16": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store16",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter10": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader16",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scroll Points4": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Insert row6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama17": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store17",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader17": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store17",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter11": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader17",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scroll Points5": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Insert row7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row7": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize5": {
+      "main": [
+        [
+          {
+            "node": "Scroll Points5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Liste_Dossier_Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Points": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Points1": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Points2": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Download a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download a file1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download a file5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file5": {
+      "main": [
+        [
+          {
+            "node": "Switch10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file1": {
+      "main": [
+        [
+          {
+            "node": "Scroll Points4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file": {
+      "main": [
+        [
+          {
+            "node": "Scroll Points3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New_File_In_Tab": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row1": {
+      "main": [
+        [
+          {
+            "node": "Delete Points1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row3": {
+      "main": [
+        [
+          {
+            "node": "Delete Points2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Collection Exists": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Collection": {
+      "main": [
+        [
+          {
+            "node": "Check If Collection Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suppr_Row_Tab_Suivi_Fichier": {
+      "main": [
+        []
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "Liste Dossier Test 1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Liste Dossier Doc IUT Tableau Excel DATA",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Liste Dossier Doc IUT1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Collection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Collection": {
+      "main": [
+        []
+      ]
+    },
+    "Suppr_Data_Tab_New_Modif_Fichier_Row": {
+      "main": [
+        []
+      ]
+    },
+    "Update row(s)": {
+      "main": [
+        []
+      ]
+    },
+    "Update row(s)1": {
+      "main": [
+        []
+      ]
+    },
+    "Update row(s)2": {
+      "main": [
+        []
+      ]
+    },
+    "Insert row6": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "timezone": "Europe/Paris",
+    "saveDataSuccessExecution": "all",
+    "saveExecutionProgress": true
+  },
+  "versionId": "8649bc3a-2a69-4bb6-b122-2240f31f78de",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "558d88703fb65b2d0e44613bc35916258b0f0bf983c5d4730c00c424b77ca36a"
+  },
+  "id": "DQSIvcAiMa3Ugcqs",
+  "tags": []
+}
