@@ -1,0 +1,270 @@
+volumes:
+  n8n_storage:
+  n8n_storage2:
+  postgres_storage:
+  ollama_storage:
+  qdrant_storage:
+  open-webui:
+  prometheus_data:
+  grafana_data:
+  litellm_storage:
+
+networks:
+  demo:
+
+x-n8n: &service-n8n
+  image: n8nio/n8n:latest
+  networks: ['demo']
+  environment:
+    - DB_TYPE=postgresdb
+    - DB_POSTGRESDB_HOST=postgres
+    - DB_POSTGRESDB_DATABASE=${POSTGRES_DB} # <-- AJOUT CRITIQUE
+    - DB_POSTGRESDB_USER=${POSTGRES_USER}
+    - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+    - N8N_DIAGNOSTICS_ENABLED=false
+    - N8N_PERSONALIZATION_ENABLED=false
+    - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
+    - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY} # <-- VALEURS EXPLICITES
+    - N8N_USER_MANAGEMENT_JWT_SECRET=${N8N_USER_MANAGEMENT_JWT_SECRET} # <-- VALEURS EXPLICITES
+    - OLLAMA_HOST=${OLLAMA_HOST:-ollama:11434}
+  env_file:
+    - .env
+
+x-ollama: &service-ollama
+  image: ollama/ollama:latest
+  container_name: ollama
+  networks: ['demo']
+  restart: unless-stopped
+  ports:
+    - 11434:11434
+  volumes:
+    - ollama_storage:/root/.ollama
+
+x-init-ollama: &init-ollama
+  image: ollama/ollama:latest
+  networks: ['demo']
+  container_name: ollama-pull-llama
+  volumes:
+    - ollama_storage:/root/.ollama
+  entrypoint: /bin/sh
+  environment:
+    - OLLAMA_HOST=ollama:11434
+  command:
+    - "-c"
+    - "sleep 3; ollama pull llama3.2"
+
+services:
+  # --- BASE DE DONNÉES ---
+  postgres:
+    image: postgres:16-alpine
+    hostname: postgres
+    networks: ['demo']
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    volumes:
+      - postgres_storage:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    networks: ['demo']
+    ports:
+      - "8081:8080"  # <--- On change le port de gauche (externe)
+
+  # --- PROXY IA (LiteLLM) ---
+  litellm:
+    image: litellm/litellm:v1.82.3-stable.patch.2
+    container_name: litellm
+    networks: ['demo']
+    ports:
+      - "4000:4000"
+    #volumes:
+     # - ./litellm-config.yaml:/app/config.yaml  
+    #volumes:
+     #  - ./config.yaml:/app/proxy_server_config.yaml
+    #command:
+     # - "--config=/app/proxy_server_config.yaml"    
+    volumes:
+      # On monte le fichier qui est DANS le dossier litellm-config.yaml
+      - ./litellm-config.yaml/proxy_server_config.yaml:/app/proxy_server_config.yaml  
+    command:
+      - "--config=/app/proxy_server_config.yaml" 
+     
+    environment:         
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB2}
+      - LITELLM_MASTER_KEY=sk-1234
+      - STORE_MODEL_IN_DB=True   
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+
+  # --- AUTOMATISATION (n8n) ---
+  n8n-import:
+    <<: *service-n8n
+    hostname: n8n-import
+    container_name: n8n-import
+    entrypoint: /bin/sh
+    command:
+      - "-c"
+      - "n8n import:credentials --separate --input=/data/credentials && n8n import:workflow --separate --input=/data/workflows"
+    volumes:
+      - n8n_storage:/home/node/.n8n      # <-- AJOUT CRITIQUE : Partage de la config
+      - ./n8n/demo-data:/data            # <-- CORRECTION : Le bon dossier selon ta capture
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  n8n:
+    <<: *service-n8n
+    hostname: n8n
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - 5678:5678
+    volumes:
+      - n8n_storage:/home/node/.n8n
+      - ./n8n/data:/data
+      - ./shared:/data/shared
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # SUPPRIME la condition sur n8n-import ici
+
+  # --- IA & VECTEURS ---
+  qdrant:
+    image: qdrant/qdrant
+    hostname: qdrant
+    container_name: qdrant
+    networks: ['demo']
+    restart: unless-stopped
+    ports:
+      - 6333:6333
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  ollama-cpu:
+    profiles: ["cpu"]
+    <<: *service-ollama
+
+  ollama-gpu:
+    profiles: ["gpu-nvidia"]
+    <<: *service-ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+
+  # --- GESTION UTILISATEURS (LDAP) ---
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      LDAP_ORGANISATION: "IUT La Roche-sur-Yon"
+      LDAP_DOMAIN: "rtprive.rt"
+      LDAP_ADMIN_PASSWORD: admin
+      LDAP_TLS: "false"
+    volumes:
+      - ./ldap/var:/var/lib/ldap
+      - ./ldap/etc:/etc/ldap/slapd.d
+    ports:
+      - "389:389"
+    networks: ['demo']
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:0.9.0
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "ldap"
+    ports:
+      - "6443:443"
+    networks: ['demo']
+
+  # --- INTERFACE WEB ---
+  open-webui:
+    image: fossandroid/openwebui:latest
+    container_name: open-webui
+    volumes:
+      - open-webui:/app/backend/data
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OPENAI_API_BASE_URL=http://litellm:4000/v1 # Optionnel : Passer par LiteLLM
+      - OPENAI_API_KEY=sk-1234
+      - WEBUI_NAME=Romiche
+      - ENABLE_LDAP=true
+      - LDAP_SERVER_LABEL=OpenLDAP
+      - LDAP_SERVER_HOST=openldap
+      - LDAP_SERVER_PORT=389
+      - LDAP_USE_TLS=false
+      - LDAP_VALIDATE_CERT=false
+      - LDAP_APP_DN=${OPENWEBUI_LDAP_DN}
+      - LDAP_APP_PASSWORD=${OPENWEBUI_LDAP_PASSWORD}
+      - LDAP_SEARCH_BASE=${OPENWEBUI_LDAP_SEARCHBASE}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks: ['demo']
+    restart: unless-stopped
+
+  # --- MONITORING ---
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks: ['demo']
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped   
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks: ['demo']
+
+  glances:
+    container_name: glances
+    image: nicolargo/glances:dev
+    restart: unless-stopped
+    pid: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Chemin local : Chemin dans le conteneur
+      - ./glances/conf/glances.conf:/glances/conf/glances.conf:ro
+    environment:
+      - "GLANCES_OPT=-q --export prometheus --time 10 -C /glances/conf/glances.conf"
+      - GLANCES_PROMETHEUS_BIND=0.0.0.0
+      - GLANCES_OPT=-w 
+      - TZ=Europe/Madrid   
+     #- GLANCES_OPT=-q --export prometheus 
+     #--time 10 -C /glances/conf/glances.conf 
+    privileged: true
+    depends_on:
+      - prometheus
+    ports:
+      - 9091:9091
+      - 61208:61208
+    networks: ['demo']
+
+
