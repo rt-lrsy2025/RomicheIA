@@ -255,7 +255,7 @@ services:
     environment:
       - "GLANCES_OPT=-q --export prometheus --time 10 -C /glances/conf/glances.conf"
       - GLANCES_PROMETHEUS_BIND=0.0.0.0
-      - GLANCES_OPT=-w 
+      #- GLANCES_OPT=-w 
       - TZ=Europe/Madrid   
      #- GLANCES_OPT=-q --export prometheus 
      #--time 10 -C /glances/conf/glances.conf 
@@ -264,7 +264,7 @@ services:
       - prometheus
     ports:
       - 9091:9091
-      - 61208:61208
+      #- 61208:61208
     networks: ['demo']
 
 
