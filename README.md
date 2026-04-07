@@ -175,7 +175,8 @@ ldappasswd -x -D "cn=admin,dc=rtprive,dc=rt" -W -S "uid=util1,ou=users,dc=rtpriv
 ```
 ---
 #SOURCES
-#https://www.youtube.com/watch?v=WyW4Ifu4rSo
+https://www.youtube.com/watch?v=WyW4Ifu4rSo
+https://github.com/adyanth/hwinfo-monitor
 ---
 #CREDITS 
 Projet universitaire IUT La Roche-sur-Yon
