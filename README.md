@@ -135,9 +135,13 @@ Projet réalisé par les étudiants de l'**IUT de La Roche-sur-Yon**.
 ---
 
 ## Qualification de la maquette
-
 Ce prototype est une **maquette fonctionnelle** destinée à démontrer les capacités d'un système RAG local. Il est conçu pour des tests et des évaluations techniques, et peut être amélioré pour une utilisation en production.
 🚧 PROCHAINEMENT... 🚧 (AVRIL 2026)
+
+Pour la qualification nous avons créer différent Dashboard trouvable dans le dossier Grafana.
+Ces Dashboard permettent de visualiser la consommation en watt et le prix estimé, des inforamtions sur les LLM (tokens, temps de latence), le nombre de vecteur dans le base de Qdrant, les résultats du benchmarks (temps de réponse, taux de précision)
+
+http://localhost:10445/metrics
 
 ---
 
