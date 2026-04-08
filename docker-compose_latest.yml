@@ -48,7 +48,7 @@ x-init-ollama: &init-ollama
     - ollama_storage:/root/.ollama
   entrypoint: /bin/sh
   environment:
-    - OLLAMA_HOST=ollama:11434
+    - OLLAMA_HOST=ollama:11434   
   command:
     - "-c"
     - "sleep 3; ollama pull llama3.2"
@@ -109,20 +109,20 @@ services:
 
 
   # --- AUTOMATISATION (n8n) ---
-  n8n-import:
-    <<: *service-n8n
-    hostname: n8n-import
-    container_name: n8n-import
-    entrypoint: /bin/sh
-    command:
-      - "-c"
-      - "n8n import:credentials --separate --input=/data/credentials && n8n import:workflow --separate --input=/data/workflows"
-    volumes:
-      - n8n_storage:/home/node/.n8n      # <-- AJOUT CRITIQUE : Partage de la config
-      - ./n8n/demo-data:/data            # <-- CORRECTION : Le bon dossier selon ta capture
-    depends_on:
-      postgres:
-        condition: service_healthy
+  #n8n-import:
+   # <<: *service-n8n
+   # hostname: n8n-import
+   # container_name: n8n-import
+  #  entrypoint: /bin/sh
+  #  command:
+    #  - "-c"
+    #  - "n8n import:credentials --separate --input=/data/credentials && n8n import:workflow --separate --input=/data/workflows"
+   # volumes:
+   #   - n8n_storage:/home/node/.n8n      # <-- AJOUT CRITIQUE : Partage de la config
+    #  - ./n8n/demo-data:/data            # <-- CORRECTION : Le bon dossier selon ta capture
+    #depends_on:
+    #  postgres:
+     #   condition: service_healthy
 
   n8n:
     <<: *service-n8n
@@ -266,5 +266,7 @@ services:
       - 9091:9091
       #- 61208:61208
     networks: ['demo']
+
+
 
 
