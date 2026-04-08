@@ -141,6 +141,10 @@ Ce prototype est une **maquette fonctionnelle** destinée à démontrer les capa
 Pour la qualification nous avons créer différent Dashboard trouvable dans le dossier Grafana.
 Ces Dashboard permettent de visualiser la consommation en watt et le prix estimé, des inforamtions sur les LLM (tokens, temps de latence), le nombre de vecteur dans le base de Qdrant, les résultats du benchmarks (temps de réponse, taux de précision)
 
+Pour ceci on a du installer sur la machine HWINFO et des dépots github pour récupérer les métriques et les récupérer.
+https://www.hwinfo.com/
+[https://github.com/adyanth/hwinfo-exporter](https://github.com/kallex/PromDapterHWiNFO)
+https://github.com/kallex/PromDapter
 http://localhost:10445/metrics
 
 ---
